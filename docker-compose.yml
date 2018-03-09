@@ -3,22 +3,17 @@ version: '3.3'
 services:
 
   assessmentsvc:
-    image: assessmentsvc:latest
+    image: sonofsisyphus/assessmentsvc:latest
     ports:
       - 8080:80
-    build:
-      context: https://github.com/sonofsisyphus/C2C24-Assessmentsvc.git
-      dockerfile: Assessmentsvc/Dockerfile
     env_file: .env
 
   assessmetl:
-    image: assessmetl:latest
+    image: sonofsisyphus/assessmetl:latest
     depends_on:
       - assessmentsvc
     ports:
       - 5000:80
-    build:
-      context: https://github.com/sonofsisyphus/C2C24-AssessMETL.git
-      dockerfile: Dockerfile
+      
     env_file: .env
 
