@@ -1,9 +1,18 @@
 version: '3.3'
 
 services:
+  mysql-server:
+    image: mysql:latest
+    volumes:
+      - dbdata:/var/lib/db
+    restart: always
+    env_file: .env
 
   assessmentsvc:
     image: sonofsisyphus/assessmentsvc:latest
+    depends_on:
+      - mysql-server
+    restart: always
     ports:
       - 8080:80
     env_file: .env
@@ -17,3 +26,5 @@ services:
       
     env_file: .env
 
+volumes:
+  dbdata:
