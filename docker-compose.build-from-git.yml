@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:
+  mysql-server:
+    image: mysql:latest
+    volumes:
+      - dbdata:/var/lib/db
+    restart: always
+    env_file: .env
+
+  assessmentsvc:
+    image: sonofsisyphus/assessmentsvc:latest
+    build: https://github.com/sonofsisyphus/C2C24-Assessmentsvc.git
+    depends_on:
+      - mysql-server
+    restart: always
+    ports:
+      - 8080:80
+    env_file: .env
+
+  assessmetl:
+    image: sonofsisyphus/assessmetl:latest
+    build: https://github.com/sonofsisyphus/C2C24-AssessMETL.git
+    depends_on:
+      - assessmentsvc
+    ports:
+      - 5000:80
+      
+    env_file: .env
+
+volumes:
+  dbdata:
